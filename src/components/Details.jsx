@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import axios from '../utils/axios'
 import Loading from './Loading'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 function Details() {
 
   const [product, setProduct] = useState()
+  // let [rate, setRate] = useState(0)
   const { id } = useParams()
 
   const getData = async () => {
@@ -16,6 +19,20 @@ function Details() {
       console.log(error)
     }
   }
+  
+   const rating = () => {
+    let rate = []
+    for (let i = 0; i < 5; i++) {
+       rate[i] = <FontAwesomeIcon icon={faStar} key={i} className={`text-${(i < product.rating.rate.toFixed())? 'yellow': 'slate'}-400`} />
+    }
+    console.log(product.rating.rate.toFixed())
+    return rate
+   }
+  
+
+
+  // console.log()
+  // setRate((product && Math.floor(product.rating.rate)))
 
   useEffect(() => { getData() }, [])
 
@@ -27,7 +44,16 @@ function Details() {
           <h1 className='text-4xl mb-2'>{product.title}</h1>
           <h3 className='text-xl text-slate-600 mb-1'>{product.category}</h3>
           <h2 className='text-2xl text-red-400 mb-2'>$ {product.price}</h2>
-          <p className='mb-8'>{product.description}</p>
+          <p className='mb-2'>{product.description}</p>
+          <div className="rating mb-8 text-2xl">
+            <span>
+            {rating()}
+              {/* <FontAwesomeIcon icon={faStar} className='text-yellow-400' />
+              <FontAwesomeIcon icon={faStar} className='text-slate-400' />
+              <FontAwesomeIcon icon={faStar} className='text-slate-400' />
+              <FontAwesomeIcon icon={faStar} className='text-slate-400' /> */}
+            </span>
+          </div>
           <Link className='px-5 py-2 border rounded my-3 text-green-500 border-green-400 font-bold mr-6'>Edit</Link>
           <Link className='px-5 py-2 border rounded my-3 text-red-500 border-red-400 font-bold'>Delete</Link>
         </div>
