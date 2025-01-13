@@ -5,7 +5,7 @@ export const productContext = createContext();
 
 function Context(probs) {
 
-    const [getProduct, setGetProduct] = useState(null)
+    const [getProduct, setGetProduct] = useState(JSON.parse(localStorage.getItem('products')) || null)
 
     const getData = async () => {
         try {
@@ -16,7 +16,9 @@ function Context(probs) {
         }
     }
 
-    useEffect(() => {getData()}, [])
+    if (!JSON.parse(localStorage.getItem('products'))) {
+        useEffect(() => {getData()}, [])
+    }
 
     return (
         <productContext.Provider value={[getProduct, setGetProduct]}>

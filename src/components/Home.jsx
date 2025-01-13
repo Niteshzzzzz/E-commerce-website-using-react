@@ -10,7 +10,6 @@ function Home() {
     const [filterProduct, setfilterProduct] = useState(null)
     const {search} = useLocation()
     const category = decodeURIComponent(search.split('=')[1])
-    console.log(category)
    
     const getfilterProduct = async () => {
         try {
@@ -23,7 +22,11 @@ function Home() {
 
     useEffect(() => {
         if(!filterProduct || category == 'undefined') setfilterProduct(getProduct);
-        if(category != 'undefined') getfilterProduct();
+        if(category != 'undefined'){
+            // getfilterProduct();
+            setfilterProduct(getProduct.filter(p => p.category == category))
+        }
+            
     }, [category, getProduct])
 
     return filterProduct ? (
